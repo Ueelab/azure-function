@@ -11,7 +11,7 @@ on:
 
 env:
   AZURE_FUNCTIONAPP_NAME: azure-ip-refresh # set this to your function app name on Azure
-  PACKAGE_DIRECTORY: './azure-ip-refresh' # set this to the directory which contains pom.xml file
+  PACKAGE_DIRECTORY: '.' # set this to the directory which contains pom.xml file
   JAVA_VERSION: '17' # set this to the java version to use
 
 jobs:
@@ -38,6 +38,6 @@ jobs:
         with:
           app-name: 'azure-ip-refresh'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_F1EF9821A38D490899F80E0CECC7753C }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_3052EE4FF62D4B72A7976CD2F6D8128B }}
           package: '${{ env.PACKAGE_DIRECTORY }}'
           respect-pom-xml: true
