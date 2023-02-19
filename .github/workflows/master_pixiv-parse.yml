@@ -38,6 +38,6 @@ jobs:
         with:
           app-name: 'pixiv-parse'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_BB1BC12ED0F9424CAB8D8A2DFA11E50D }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_81E88E4603A944ADABA149A0D9DB8BB6 }}
           package: '${{ env.PACKAGE_DIRECTORY }}'
           respect-pom-xml: true
