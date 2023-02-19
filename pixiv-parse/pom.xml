@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.ueelab.functions</groupId>
-    <artifactId>azure-ip-refresh</artifactId>
+    <artifactId>pixiv-parse</artifactId>
     <version>1.0.0</version>
     <packaging>jar</packaging>
 
@@ -14,7 +14,7 @@
         <java.version>17</java.version>
         <azure.functions.maven.plugin.version>1.16.0</azure.functions.maven.plugin.version>
         <azure.functions.java.library.version>3.0.0</azure.functions.java.library.version>
-        <functionAppName>azure-ip-refresh-1671477678829</functionAppName>
+        <functionAppName>pixiv-parse-1676818925838</functionAppName>
     </properties>
 
     <dependencies>
@@ -22,16 +22,6 @@
             <groupId>com.microsoft.azure.functions</groupId>
             <artifactId>azure-functions-java-library</artifactId>
             <version>${azure.functions.java.library.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.azure.resourcemanager</groupId>
-            <artifactId>azure-resourcemanager</artifactId>
-            <version>2.22.0</version>
-        </dependency>
-        <dependency>
-            <groupId>com.azure</groupId>
-            <artifactId>azure-identity</artifactId>
-            <version>1.7.2</version>
         </dependency>
 
     </dependencies>
@@ -71,8 +61,8 @@
                     <!-- <disableAppInsights></disableAppInsights> -->
                     <runtime>
                         <!-- runtime os, could be windows, linux or docker-->
-                        <os>linux</os>
-                        <javaVersion>17</javaVersion>
+                        <os>windows</os>
+                        <javaVersion>8</javaVersion>
                         <!-- for docker function, please set the following parameters -->
                         <!-- <image>[hub-user/]repo-name[:tag]</image> -->
                         <!-- <serverId></serverId> -->
@@ -81,7 +71,7 @@
                     <appSettings>
                         <property>
                             <name>FUNCTIONS_EXTENSION_VERSION</name>
-                            <value>~3</value>
+                            <value>~4</value>
                         </property>
                     </appSettings>
                 </configuration>
