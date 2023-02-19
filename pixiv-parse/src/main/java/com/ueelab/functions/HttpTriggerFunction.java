@@ -37,7 +37,7 @@ public class HttpTriggerFunction {
         final String query = request.getQueryParameters().get("name");
         final String name = request.getBody().orElse(query);
         if (true) {
-            return request.createResponseBuilder(HttpStatus.SEE_OTHER).header("location", "pixiv.net/i/105473641").build();
+            return request.createResponseBuilder(HttpStatus.SEE_OTHER).header("location", "https://pixiv.net/i/105473641").build();
         }
         if (name == null) {
             return request.createResponseBuilder(HttpStatus.BAD_REQUEST).body("Please pass a name on the query string or in the request body").build();
