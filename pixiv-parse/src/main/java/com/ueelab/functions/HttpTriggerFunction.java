@@ -20,7 +20,7 @@ public class HttpTriggerFunction {
      * 1. curl -d "HTTP Body" {your host}/api/HttpExample
      * 2. curl "{your host}/api/HttpExample?name=HTTP%20Query"
      */
-    @FunctionName("HttpExample")
+    @FunctionName("")
     public HttpResponseMessage run(
             @HttpTrigger(
                 name = "req",
@@ -33,7 +33,9 @@ public class HttpTriggerFunction {
         // Parse query parameter
         final String query = request.getQueryParameters().get("name");
         final String name = request.getBody().orElse(query);
-
+        if (true) {
+            return request.createResponseBuilder(HttpStatus.SEE_OTHER).body("pixiv.net/i/105473641").build();
+        }
         if (name == null) {
             return request.createResponseBuilder(HttpStatus.BAD_REQUEST).body("Please pass a name on the query string or in the request body").build();
         } else {
