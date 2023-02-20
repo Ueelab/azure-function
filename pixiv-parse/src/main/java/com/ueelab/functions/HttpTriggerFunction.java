@@ -24,9 +24,8 @@ public class HttpTriggerFunction {
             name = "pixiv",
             methods = {HttpMethod.GET},
             authLevel = AuthorizationLevel.ANONYMOUS)
-                                   HttpRequestMessage<Optional<String>> request) {
+                                   HttpRequestMessage<Optional<String>> request, String content) {
         String target = "https://pixiv.net";
-        final String content = request.getQueryParameters().get("content");
         if (content != null) {
             Matcher matcher = ID_PATTERN.matcher(content);
             if (matcher.find()) {
