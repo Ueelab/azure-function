@@ -5,6 +5,7 @@ import com.microsoft.azure.functions.HttpRequestMessage;
 import com.microsoft.azure.functions.HttpResponseMessage;
 import com.microsoft.azure.functions.HttpStatus;
 import com.microsoft.azure.functions.annotation.AuthorizationLevel;
+import com.microsoft.azure.functions.annotation.BindingName;
 import com.microsoft.azure.functions.annotation.FunctionName;
 import com.microsoft.azure.functions.annotation.HttpTrigger;
 
@@ -20,11 +21,11 @@ public class HttpTriggerFunction {
     private static final Pattern ID_PATTERN = Pattern.compile("\\d{8,9}");
     
     @FunctionName("PixivParse")
-    public HttpResponseMessage run(@HttpTrigger(route = "/{content}",
+    public HttpResponseMessage run(@HttpTrigger(route = "/{content?}",
             name = "pixiv",
             methods = {HttpMethod.GET},
             authLevel = AuthorizationLevel.ANONYMOUS)
-                                   HttpRequestMessage<Optional<String>> request, String content) {
+                                   HttpRequestMessage<Optional<String>> request, @BindingName("temp") String content) {
         String target = "https://pixiv.net";
         if (content != null) {
             Matcher matcher = ID_PATTERN.matcher(content);
