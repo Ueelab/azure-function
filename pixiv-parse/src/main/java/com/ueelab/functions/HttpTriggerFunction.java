@@ -20,16 +20,18 @@ public class HttpTriggerFunction {
     private static final Pattern ID_PATTERN = Pattern.compile("\\d{8,9}");
     
     @FunctionName("PixivParse")
-    public HttpResponseMessage run(@HttpTrigger(route = "/",
+    public HttpResponseMessage run(@HttpTrigger(route = "/{content}",
             name = "pixiv",
             methods = {HttpMethod.GET},
             authLevel = AuthorizationLevel.ANONYMOUS)
                                    HttpRequestMessage<Optional<String>> request) {
-        final String path = request.getUri().getPath();
         String target = "https://pixiv.net";
-        Matcher matcher = ID_PATTERN.matcher(path);
-        if (matcher.find()) {
-            target += "/i/" + matcher.group();
+        final String content = request.getQueryParameters().get("content");
+        if (content != null) {
+            Matcher matcher = ID_PATTERN.matcher(content);
+            if (matcher.find()) {
+                target += "/i/" + matcher.group();
+            }
         }
         return request.createResponseBuilder(HttpStatus.SEE_OTHER).header("location", target).build();
     }
