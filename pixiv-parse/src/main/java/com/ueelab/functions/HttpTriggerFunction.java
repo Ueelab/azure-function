@@ -1,6 +1,5 @@
 package com.ueelab.functions;
 
-import com.microsoft.azure.functions.ExecutionContext;
 import com.microsoft.azure.functions.HttpMethod;
 import com.microsoft.azure.functions.HttpRequestMessage;
 import com.microsoft.azure.functions.HttpResponseMessage;
@@ -8,41 +7,30 @@ import com.microsoft.azure.functions.HttpStatus;
 import com.microsoft.azure.functions.annotation.AuthorizationLevel;
 import com.microsoft.azure.functions.annotation.FunctionName;
 import com.microsoft.azure.functions.annotation.HttpTrigger;
-import com.sun.net.httpserver.Headers;
 
-import java.net.http.HttpHeaders;
 import java.util.Optional;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Azure Functions with HTTP Trigger.
  */
 public class HttpTriggerFunction {
-    /**
-     * This function listens at endpoint "/api/HttpExample". Two ways to invoke it using "curl" command in bash:
-     * 1. curl -d "HTTP Body" {your host}/api/HttpExample
-     * 2. curl "{your host}/api/HttpExample?name=HTTP%20Query"
-     */
-    @FunctionName("HttpExample")
-    public HttpResponseMessage run(
-            @HttpTrigger(
-                route = "/",
-                name = "req",
-                methods = {HttpMethod.GET, HttpMethod.POST},
-                authLevel = AuthorizationLevel.ANONYMOUS)
-                HttpRequestMessage<Optional<String>> request,
-            final ExecutionContext context) {
-        context.getLogger().info("Java HTTP trigger processed a request.");
-
-        // Parse query parameter
-        final String query = request.getQueryParameters().get("name");
-        final String name = request.getBody().orElse(query);
-        if (true) {
-            return request.createResponseBuilder(HttpStatus.SEE_OTHER).header("location", "https://pixiv.net/i/105473641").build();
+    
+    private static final Pattern ID_PATTERN = Pattern.compile("\\d{8,9}");
+    
+    @FunctionName("PixivParse")
+    public HttpResponseMessage run(@HttpTrigger(route = "/",
+            name = "pixiv",
+            methods = {HttpMethod.GET},
+            authLevel = AuthorizationLevel.ANONYMOUS)
+                                   HttpRequestMessage<Optional<String>> request) {
+        final String path = request.getUri().getPath();
+        String target = "https://pixiv.net";
+        Matcher matcher = ID_PATTERN.matcher(path);
+        if (matcher.find()) {
+            target += "/i/" + matcher.group();
         }
-        if (name == null) {
-            return request.createResponseBuilder(HttpStatus.BAD_REQUEST).body("Please pass a name on the query string or in the request body").build();
-        } else {
-            return request.createResponseBuilder(HttpStatus.OK).body("Hello, " + name).build();
-        }
+        return request.createResponseBuilder(HttpStatus.SEE_OTHER).header("location", target).build();
     }
 }
